@@ -20,7 +20,7 @@ Don't forget to add JAVA path to the environment variables.
 https://www.oracle.com/java/technologies/downloads/
 ```
 
-### Install latest Scoop and Allure [Required for Allure Report in Local Run]
+### Install latest Scoop
 
 Download Scoop
 
@@ -28,35 +28,20 @@ Download Scoop
 https://scoop.sh/
 ```
 
-Then open a PowerShell terminal (version 5.1 or later) and run this command:
+Open a PowerShell terminal (version 5.1 or later) and run this command:
 
 ```
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
-And then run this command:
+### Install latest Allure [Required for Allure Report in Local Run]
 
 ```
 scoop install allure
 ```
 
-### Install latest Scoop and FFmpeg [Required for Video recording]
-
-Download Scoop
-
-```
-https://scoop.sh/
-```
-
-Then open a PowerShell terminal (version 5.1 or later) and run this command:
-
-```
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-```
-
-And then run this command:
+### Install latest FFmpeg [Required for Video recording]
 
 ```
 scoop install ffmpeg
