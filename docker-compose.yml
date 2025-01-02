@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  selenium-bdd:
+    build: .
+    ports:
+      - "4040:4040"
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+    environment:
+      - TZ=Europe/Budapest
+      - CHROME_OPTIONS=--headless --no-sandbox --disable-dev-shm-usage --disable-gpu --window-size=1920,1080
+    command: /bin/sh -c "behave --no-capture -f allure_behave.formatter:AllureFormatter -o reports > /app/logs/allure.log 2>&1 ; allure serve -p 4040 reports"
