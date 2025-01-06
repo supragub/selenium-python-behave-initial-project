@@ -2,7 +2,7 @@
 
 This is an initial BDD framework that supports automation testing of websites on different browsers using Selenium, Python and Behave.
 
-## Prerequisites:
+## Installation:
 
 ### Install latest Python [Required for BDD framework]
 
@@ -64,7 +64,7 @@ sudo apt-get update
 sudo apt-get install -y powershell
 ```
 
-## Getting Started
+## Usage
 
 ### Clone Bitbucket repository
 
