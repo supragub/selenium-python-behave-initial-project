@@ -1,0 +1,55 @@
+# Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+
+# PyCharm settings
+.idea/
+
+# VSCode settings
+.vscode
+
+# Logs
+*.log
+logs/
+
+# Test reports and Selenium screenshots
+reports/
+*.html
+*.xml
+*.json
+screenshots/
+*.png
+*.jpg
+
+# Behave output files
+*.out
+*.rst
+
+# Environment variable files
+.env
+.env.local
+
+# Docker
+*.env
+
+# Node.js modules (if there is a frontend)
+node_modules/
+
+# Video files
+*.mpeg
+*.mp4
+*.mpg
+*.avi
+*.mov
+*.mkv
+*.flv
+*.wmv
+
+# Tools
+tools/allure
+tools/ffmpeg

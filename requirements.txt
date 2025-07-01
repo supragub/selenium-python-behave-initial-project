@@ -1,0 +1,7 @@
+allure-behave==2.13.5
+allure-python-commons==2.13.5
+behave==1.2.6
+selenium==4.28.1
+webdriver-manager==4.0.2
+python-dotenv==1.0.1
+colorama~=0.4.6
