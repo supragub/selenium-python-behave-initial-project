@@ -92,7 +92,7 @@ LOCAL_BROWSER_OPTIONS - Define the list of arguments for Local Run (eg. --headle
 
 ### 3. Run the Project locally with Python
 
-Start Atuomation Test Framework
+Start Automation Test Framework
 ```
 python start.py
 ```

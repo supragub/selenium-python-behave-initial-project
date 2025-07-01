@@ -1,5 +1,5 @@
 """
-selenium-python-behave-initial-project - Behave tesztelési keretrendszer Selenium támogatással
+selenium-python-behave-initial-project - Behave test framework with Selenium support
 Copyright (C) 2025  Gábor Varga
 
 This program is free software: you can redistribute it and/or modify
