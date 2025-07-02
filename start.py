@@ -22,17 +22,15 @@ def main():
     while True:
         print("\nInitial BDD Automation Test Framework\n")
         print("1. Run all tests")
-        print("2. Run custom tests")        
-        print("3. Run regression tests")
-        print("4. Run user acceptance tests")
-        print("5. Clean up test results (logs, recordings, reports)")
-        print("6. Clean up all (test artifacts & environment data)")
+        print("2. Run custom tests")
+        print("3. Clean up test results (logs, recordings, reports)")
+        print("4. Clean up all (test artifacts & environment data)")
         print("0. Exit")
 
         choice = input("\nEnter the number of your choice: ").strip()
 
         if choice == "1":
-            os.system("python runner.py")
+            os.system("python runner_local.py")
         elif choice == "2":
             print("\nExamples of tag usage:")
             print("- Single tag: regression")
@@ -43,16 +41,12 @@ def main():
             tags = input("\nPlease enter the tags for test execution: ").strip()
             if tags:
                 # Quotes ensure complex expressions work correctly
-                os.system(f'python runner.py "{tags}"')
+                os.system(f'python runner_local.py "{tags}"')
             else:
                 print("\nNo tags provided, returning to main menu.")
         elif choice == "3":
-            os.system("python runner.py regression")
-        elif choice == "4":
-            os.system("python runner.py uat")
-        elif choice == "5":
             cleanup(CleanupMode.TEST_RESULTS)
-        elif choice == "6":
+        elif choice == "4":
             cleanup(CleanupMode.ALL)
         elif choice == "0":
             print("\nExit.")

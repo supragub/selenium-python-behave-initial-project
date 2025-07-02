@@ -1,3 +1,4 @@
+@demo
 Feature: Example feature
 
   Background:

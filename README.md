@@ -101,10 +101,8 @@ Initial BDD Automation Test Framework
 
 1. Run all tests
 2. Run custom tests
-3. Run regression tests
-4. Run user acceptance tests
-5. Clean up test results (logs, recordings, reports)
-6. Clean up all (test artifacts & environment data)
+3. Clean up test results (logs, recordings, reports)
+4. Clean up all (test artifacts & environment data)
 0. Exit
 
 Enter the number of your choice:
@@ -113,12 +111,12 @@ Or you can run commands directly:
 
 Build virtual environment and install tools (if necessary) and run tests
 ```
-python runner.py                                      # Run all tests
-python runner.py regression                           # Run a single test
-python runner.py "regression or uat"                  # Run tests with OR connection
-python runner.py "regression and smoke"               # Run tests with AND connection 
-python runner.py "not uat"                            # Run tests with exclude
-python runner.py "(regression or uat) and not smoke"  # Run tests with complex expression
+python runner_local.py                                      # Run all tests
+python runner_local.py regression                           # Run a single test
+python runner_local.py "regression or uat"                  # Run tests with OR connection
+python runner_local.py "regression and smoke"               # Run tests with AND connection 
+python runner_local.py "not uat"                            # Run tests with exclude
+python runner_local.py "(regression or uat) and not smoke"  # Run tests with complex expression
 ```
 
 Clean up test results (logs, recordings, reports)
