@@ -1,0 +1,7 @@
+# .dockerignore
+__pycache__/
+*.pyc
+logs/
+recordings/
+reports/
+.venv/

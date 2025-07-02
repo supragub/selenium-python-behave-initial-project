@@ -15,6 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+
+import os
 from features import config
 from helpers import browser_initialiser, logger, screenshot_recorder, video_recorder
 
@@ -32,8 +34,8 @@ def before_all(context):
     # Configure logging
     context.logger = logger.configure_logging()
 
-    # Start FFmpeg recording if enabled
-    if config.VIDEO_RECORDING:
+    # Start FFmpeg recording if enabled and not running in Docker
+    if config.VIDEO_RECORDING and not os.getenv('RUNNING_IN_DOCKER'):
         context.ffmpeg_process = video_recorder.start_ffmpeg_recording()
 
 
@@ -44,8 +46,8 @@ def after_all(context):
     if hasattr(context, 'logger'):
         logger.log_end(context.logger)
 
-    # Stop FFmpeg recording if enabled
-    if hasattr(context, 'ffmpeg_process') and config.VIDEO_RECORDING:
+    # Stop FFmpeg recording if enabled and not running in Docker
+    if hasattr(context, 'ffmpeg_process') and config.VIDEO_RECORDING and not os.getenv('RUNNING_IN_DOCKER'):
         video_recorder.stop_ffmpeg_recording(context.ffmpeg_process)
 
 

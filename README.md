@@ -129,6 +129,22 @@ Clean up all (test artifacts & environment data)
 python cleanup.py all
 ```
 
+### 4. Run the Project with Docker
+
+You can also run the tests in a Docker container. This is useful for CI/CD pipelines or to ensure a consistent environment.
+
+Build the Docker image:
+```
+docker build -t initial-selenium-bdd .
+```
+Or use docker-compose:
+```
+docker compose up --build
+```
+
+Test results and reports will be available in the `logs` and `reports` folders on your host machine.
+
+
 [Python]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
 
 [Python-url]: https://www.python.org/

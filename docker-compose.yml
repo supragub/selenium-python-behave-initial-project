@@ -1,0 +1,9 @@
+services:
+  initial-selenium-bdd:
+    build: .
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+    environment:
+      - TZ=Europe/Budapest
+    command: python runner_docker.py

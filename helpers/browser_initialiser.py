@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import os
+import tempfile
 from features import config
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -67,11 +68,15 @@ def get_browser_options(browser):
     else:
         raise ValueError(f"Unsupported browser: {browser}")
 
+
     # Check if the code is running inside a Docker container
     if os.getenv('RUNNING_IN_DOCKER'):
         for arg in config.DOCKER_BROWSER_OPTIONS:
             options.add_argument(arg)
-
+        # Add a unique user-data-dir for Chrome to avoid session conflicts
+        if browser == 'chrome':
+            tmp_dir = tempfile.mkdtemp(prefix="chrome-user-data-")
+            options.add_argument(f"--user-data-dir={tmp_dir}")
     else:
         for arg in config.LOCAL_BROWSER_OPTIONS:
             options.add_argument(arg)
