@@ -21,7 +21,7 @@ import subprocess
 from features import config
 
 def create_directories():
-    directories = ["logs", "recordings/screenshots", "recordings/videos", "reports"]
+    directories = ["logs", "recordings/screenshots", "reports"]
     for directory in directories:
         os.makedirs(directory, exist_ok=True)
 

@@ -38,6 +38,7 @@ https://www.oracle.com/java/technologies/downloads/
 https://www.docker.com/products/docker-desktop/
 ```
 
+
 ## Project Structure
 
 The project contains the following root folder files:
@@ -47,6 +48,9 @@ The project contains the following root folder files:
 - **requirements.txt**: List of Python dependencies required for the project.
 - **runner.py**: Main script to set up the environment and execute tests with optional tags and reporting.
 - **start.py**: Interactive script to launch the test framework and select test or cleanup options.
+
+- **Dockerfile**: Docker build file to create a containerized environment for running tests in a consistent, isolated setup (used for CI/CD or local Docker runs).
+- **docker-compose.yml**: Docker Compose configuration to orchestrate the test container, manage environment variables, and mount volumes for logs and reports.
 
 The project contains the following main folders and their subfolders/files:
 
@@ -148,13 +152,8 @@ python cleanup.py all
 
 You can also run the tests in a Docker container. This is useful for CI/CD pipelines or to ensure a consistent environment.
 
-Build the Docker image:
 ```
-docker build -t initial-selenium-bdd .
-```
-Or use docker-compose:
-```
-docker compose up --build
+docker compose up
 ```
 
 Test results and reports will be available in the `logs` and `reports` folders on your host machine.
