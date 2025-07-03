@@ -23,6 +23,21 @@ Minimum requirements Python 3.9+
 https://www.python.org/downloads/
 ```
 
+### Install latest Java JDK [Required for Allure Report in Local Run]
+
+Don't forget to add JAVA path to the environment variables.
+Minimum requirements Java JDK 11+
+
+```
+https://www.oracle.com/java/technologies/downloads/
+```
+
+### Install and Run latest Docker Desktop [Required for Docker Tests Run]
+
+```
+https://www.docker.com/products/docker-desktop/
+```
+
 ## Project Structure
 
 The project contains the following root folder files:
