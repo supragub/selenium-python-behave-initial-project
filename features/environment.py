@@ -15,28 +15,30 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
 import os
 from features import config
-from helpers import browser_initialiser, logger, screenshot_recorder, video_recorder
+from helpers.browser_initialiser import BrowserInitializer
+from helpers.logger import Logger
+from helpers.screenshot_recorder import ScreenshotRecorder
+from helpers.video_recorder import VideoRecorder
 
 
 def before_all(context):
-    # initialize the browser
-    browser_initialiser.setup_browser(context)
+    # Initialize helpers as objects
+    context.browser_initializer = BrowserInitializer(config)
+    context.logger = Logger()
+    context.screenshot_recorder = ScreenshotRecorder()
+    context.video_recorder = None
 
-    # Open the website
+    # Initialize the browser
+    context.browser_initializer.setup_browser(context)
     context.driver.get(config.BASE_URL)
-
-    # Set window size for browser
-    browser_initialiser.set_window_size(context.driver, config.WINDOW_SIZE)
-
-    # Configure logging
-    context.logger = logger.configure_logging()
+    context.browser_initializer.set_window_size(context.driver, config.WINDOW_SIZE)
 
     # Start FFmpeg recording if enabled and not running in Docker
     if config.VIDEO_RECORDING and not os.getenv('RUNNING_IN_DOCKER'):
-        context.ffmpeg_process = video_recorder.start_ffmpeg_recording()
+        context.video_recorder = VideoRecorder()
+        context.video_recorder.start()
 
 
 def after_all(context):
@@ -44,18 +46,18 @@ def after_all(context):
     if hasattr(context, 'driver'):
         context.driver.quit()
     if hasattr(context, 'logger'):
-        logger.log_end(context.logger)
+        context.logger.log_end()
 
     # Stop FFmpeg recording if enabled and not running in Docker
-    if hasattr(context, 'ffmpeg_process') and config.VIDEO_RECORDING and not os.getenv('RUNNING_IN_DOCKER'):
-        video_recorder.stop_ffmpeg_recording(context.ffmpeg_process)
+    if context.video_recorder and config.VIDEO_RECORDING and not os.getenv('RUNNING_IN_DOCKER'):
+        context.video_recorder.stop()
 
 
 def before_feature(context, feature):
     # Log the start of a feature
     message = f"START  -  FEATURE - {feature.name}"
-    context.logger.info(message)
-    logger.log_to_console(message, 'in_progress')
+    context.logger.logger.info(message)
+    context.logger.log_to_console(message, 'in_progress')
 
     # Delete all cookies and session storage
     context.driver.delete_all_cookies()
@@ -65,33 +67,33 @@ def before_feature(context, feature):
 
 def after_feature(context, feature):
     # Log the end of a feature with its status
-    status = 'PASSED' if feature.status == 'passed' else 'FAILED'    
+    status = 'PASSED' if feature.status == 'passed' else 'FAILED'
     message = f"{status} -  FEATURE - {feature.name}"
-    context.logger.info(message)
-    logger.log_to_console(message, feature.status)
-    context.logger.info("")
+    context.logger.logger.info(message)
+    context.logger.log_to_console(message, feature.status)
+    context.logger.logger.info("")
 
 
 def before_scenario(context, scenario):
     # Log the start of a scenario
     message = f"START  - SCENARIO - {scenario.name}"
-    context.logger.info(message)
-    logger.log_to_console(message, 'in_progress')
+    context.logger.logger.info(message)
+    context.logger.log_to_console(message, 'in_progress')
 
     if "isolate" in scenario.tags:
         # Delete all cookies and session storage
         context.driver.delete_all_cookies()
         context.driver.execute_script("window.sessionStorage.clear();")
-        context.driver.execute_script("window.localStorage.clear();")    
+        context.driver.execute_script("window.localStorage.clear();")
 
 
 def after_scenario(context, scenario):
     # Log the end of a scenario with its status
     status = 'PASSED' if scenario.status == 'passed' else 'FAILED'
     message = f"{status} - SCENARIO - {scenario.name}"
-    context.logger.info(message)
-    logger.log_to_console(message, scenario.status)
-    
+    context.logger.logger.info(message)
+    context.logger.log_to_console(message, scenario.status)
+
     if "isolate" in scenario.tags:
         # Delete all cookies and session storage
         context.driver.delete_all_cookies()
@@ -101,11 +103,11 @@ def after_scenario(context, scenario):
 
 def after_step(context, step):
     # Log the status of a step
-    status = 'PASSED' if step.status == 'passed' else 'FAILED'    
+    status = 'PASSED' if step.status == 'passed' else 'FAILED'
     message = f"{status} -   STEP   - {step.keyword} {step.name}"
-    context.logger.info(message)
-    logger.log_to_console(message, step.status)
+    context.logger.logger.info(message)
+    context.logger.log_to_console(message, step.status)
 
     # Take a screenshot if the step failed
     if step.status == 'failed':
-        screenshot_recorder.take_screenshot(context.driver)
+        context.screenshot_recorder.take_screenshot(context)

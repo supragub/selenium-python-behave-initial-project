@@ -27,74 +27,63 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.edge.service import Service as EdgeService
 
 
-def setup_browser(context):
-    # Get the browser name from the configuration and convert it to lowercase
-    browser_name = config.BROWSER_NAME.lower()
-    # Get the browser-specific options
-    options = get_browser_options(browser_name)
+class BrowserInitializer:
+    """
+    Handles browser initialization and configuration for Selenium tests.
+    Supports Chrome, Firefox, and Edge. Applies environment-specific options.
+    """
+    def __init__(self, config):
+        self.config = config
 
-    if browser_name == 'chrome':
-        # Set up the ChromeDriver service with the log file
-        service = ChromeService()
-        # Initialize the Chrome browser with the specified options and service
-        context.driver = webdriver.Chrome(options=options, service=service)
+    def setup_browser(self, context):
+        """
+        Initializes the Selenium WebDriver for the configured browser and attaches it to the context.
+        """
+        browser_name = self.config.BROWSER_NAME.lower()
+        options = self.get_browser_options(browser_name)
+        driver = None
+        if browser_name == 'chrome':
+            service = ChromeService()
+            driver = webdriver.Chrome(options=options, service=service)
+        elif browser_name == 'firefox':
+            service = FirefoxService()
+            driver = webdriver.Firefox(options=options, service=service)
+        elif browser_name == 'edge':
+            service = EdgeService()
+            driver = webdriver.Edge(options=options, service=service)
+        else:
+            raise ValueError(f"Unsupported browser: {browser_name}")
+        context.driver = driver
+        return driver
 
-    elif browser_name == 'firefox':
-        # Set up the GeckoDriver service with the log file
-        service = FirefoxService()
-        # Initialize the Firefox browser with the specified options and service
-        context.driver = webdriver.Firefox(options=options, service=service)
-
-    elif browser_name == 'edge':
-        # Set up the EdgeDriver service with the log file
-        service = EdgeService()
-        # Initialize the Edge browser with the specified options and service
-        context.driver = webdriver.Edge(options=options, service=service)
-
-    print()
-
-
-def get_browser_options(browser):
-    # Return the appropriate options object based on the browser name
-    if browser == 'chrome':
-        options = ChromeOptions()
-
-    elif browser == 'firefox':
-        options = FirefoxOptions()
-
-    elif browser == 'edge':
-        options = EdgeOptions()
-
-    else:
-        raise ValueError(f"Unsupported browser: {browser}")
-
-
-    # Check if the code is running inside a Docker container
-    if os.getenv('RUNNING_IN_DOCKER'):
-        for arg in config.DOCKER_BROWSER_OPTIONS:
-            options.add_argument(arg)
-        # Add a unique user-data-dir for Chrome to avoid session conflicts
+    def get_browser_options(self, browser):
+        """
+        Returns the appropriate browser options object with all required arguments for the environment.
+        """
         if browser == 'chrome':
-            tmp_dir = tempfile.mkdtemp(prefix="chrome-user-data-")
-            options.add_argument(f"--user-data-dir={tmp_dir}")
-    else:
-        for arg in config.LOCAL_BROWSER_OPTIONS:
-            options.add_argument(arg)
+            options = ChromeOptions()
+        elif browser == 'firefox':
+            options = FirefoxOptions()
+        elif browser == 'edge':
+            options = EdgeOptions()
+        else:
+            raise ValueError(f"Unsupported browser: {browser}")
 
-    return options
+        if os.getenv('RUNNING_IN_DOCKER'):
+            for arg in self.config.DOCKER_BROWSER_OPTIONS:
+                options.add_argument(arg)
+            if browser == 'chrome':
+                tmp_dir = tempfile.mkdtemp(prefix="chrome-user-data-")
+                options.add_argument(f"--user-data-dir={tmp_dir}")
+        else:
+            for arg in self.config.LOCAL_BROWSER_OPTIONS:
+                options.add_argument(arg)
+        return options
 
-
-def set_window_size(driver, size):
-    width, height = map(int, size.split('x'))
-    driver.set_window_size(width, height)
-
-
-# if __name__ == "__main__":
-#     # initialize the browser
-#     browser_initialiser.setup_browser(context)
-
-#     # Open the website
-#     context.driver.get(config.BASE_URL)
-
-#     # Set window size for browser
-#     browser_initialiser.set_window_size(context.driver, config.WINDOW_SIZE)
+    @staticmethod
+    def set_window_size(driver, size):
+        """
+        Sets the browser window size based on a 'WIDTHxHEIGHT' string.
+        """
+        width, height = map(int, size.split('x'))
+        driver.set_window_size(width, height)

@@ -20,18 +20,26 @@ import datetime
 import allure
 
 
-def take_screenshot(context):
-    # Create a directory for screenshots if it doesn't exist
-    if not os.path.exists('recordings/screenshots'):
-        os.makedirs('recordings/screenshots')
+class ScreenshotRecorder:
+    """
+    Handles screenshot capture and file management for Selenium test sessions.
+    Screenshots are saved with scenario and step context, and can be attached to reports.
+    """
+    def __init__(self, screenshots_dir=None):
+        """
+        Initialize the screenshot recorder and ensure the target directory exists.
+        """
+        self.screenshots_dir = screenshots_dir or os.path.join('recordings', 'screenshots')
+        os.makedirs(self.screenshots_dir, exist_ok=True)
 
-    # Generate a filename with the current timestamp
-    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    filename = f'recordings/screenshots/screenshot_{timestamp}.png'
+    def take_screenshot(self, context):
+        """
+        Capture a screenshot using the Selenium context and attach it to the Allure report.
+        """
+        timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        filename = f'recordings/screenshots/screenshot_{timestamp}.png'
 
-    # Take the screenshot and save it
-    context.save_screenshot(filename)
+        context.driver.save_screenshot(filename)
 
-    # Attach the screenshot to the Allure report
-    with open(filename, "rb") as f:
-        allure.attach(f.read(), name=f"Screenshot", attachment_type=allure.attachment_type.PNG)
+        with open(filename, "rb") as f:
+            allure.attach(f.read(), name=f"Screenshot", attachment_type=allure.attachment_type.PNG)
