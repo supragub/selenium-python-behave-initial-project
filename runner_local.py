@@ -113,8 +113,6 @@ def run_tests(python_path, tags=None):
             *tag_list
         ]
     
-    print(f"\nExecuting command: {' '.join(command)}")  # Debug information
-    
     # Ensuring the virtual environment explicitly
     env = os.environ.copy()
     env["PATH"] = os.path.join(VENV_DIR, "Scripts") + os.pathsep + env["PATH"]
