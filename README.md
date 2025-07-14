@@ -38,53 +38,45 @@ https://www.oracle.com/java/technologies/downloads/
 https://www.docker.com/products/docker-desktop/
 ```
 
-
 ## Project Structure
 
-The project contains the following root folder files:
-
-- **behave.ini**: Configuration file for Behave test runner.
-- **cleanup.py**: Script to clean up test artifacts, logs, recordings, and reports.
-- **requirements.txt**: List of Python dependencies required for the project.
-- **runner.py**: Main script to set up the environment and execute tests with optional tags and reporting.
-- **start.py**: Interactive script to launch the test framework and select test or cleanup options.
-
-- **Dockerfile**: Docker build file to create a containerized environment for running tests in a consistent, isolated setup (used for CI/CD or local Docker runs).
-- **docker-compose.yml**: Docker Compose configuration to orchestrate the test container, manage environment variables, and mount volumes for logs and reports.
-
-The project contains the following main folders and their subfolders/files:
-
-- **features/**: Contains all BDD-related files for Behave.
-  - **example.feature**: Example feature file written in Gherkin syntax.
-  - **environment.py**: Behave environment hooks (setup/teardown for tests).
-  - **config.py**: Central configuration for test parameters.
-  - **steps/**: Step definitions implementing the actions for feature files.
-    - **example.py**: Example step definitions for the sample feature.
-
-- **helpers/**: Utility modules supporting the test framework.
-  - **browser_initialiser.py**: Handles browser setup and teardown.
-  - **logger.py**: Provides logging functionality for the framework.
-  - **screenshot_recorder.py**: Manages screenshot capture during tests.
-  - **video_recorder.py**: Handles video recording of test sessions.
-
-- **logs/**: Stores log files generated during test execution, such as dependency installation logs and runtime logs.
-  - **requirements.log**: Log output from dependency installation.
-  - **behave.log**: Log output from Behave test execution.
-
-- **recordings/**: Stores media captured during test runs.
-  - **screenshots/**: Saved screenshots from test steps.
-  - **videos/**: Video recordings of test sessions.
-
-- **pages/**: (Optional, for Page Object Model) Place your page object classes here. Each file should represent a page or component of the application under test, encapsulating element locators and page-specific actions. This structure helps maintain clean, reusable, and scalable test code when following the Page Object Model design pattern.
-
-- **reports/**: Stores generated test reports, including Allure reports if enabled.
-
-- **tools/**: Third-party tools and their installers.
-  - **allure/**: Allure reporting tool binaries.
-  - **ffmpeg/**: FFmpeg binaries for video processing.
-  - **installers/**: Scripts to install Allure and FFmpeg.
-
-Each folder and file is organized to separate concerns and make the framework easy to maintain and extend.
+```
+selenium-python-behave-initial-project/
+├── behave.ini                  # Configuration for Behave test runner
+├── cleanup.py                  # Script to clean up test artifacts, logs, recordings, and reports
+├── requirements.txt            # Python dependencies
+├── runner_local.py             # Local test runner with tag and reporting options
+├── runner_docker.py            # Docker test runner
+├── start.py                    # Interactive script to launch tests or cleanup
+├── Dockerfile                  # Docker build file for containerized test runs
+├── docker-compose.yml          # Docker Compose config for test orchestration
+├── LICENSE                     # License file
+├── README.md                   # Project documentation
+├── features/                   # BDD test files for Behave
+│   ├── config.py               # Central test configuration
+│   ├── environment.py          # Behave environment hooks
+│   ├── example.feature         # Example feature file (Gherkin syntax)
+│   └── steps/                  # Step definitions
+│       └── example.py          # Example step definitions
+├── helpers/                    # Utility modules
+│   ├── browser_initialiser.py  # Browser setup and teardown
+│   ├── logger.py               # Logging functionality
+│   ├── screenshot_recorder.py  # Screenshot capture
+│   └── video_recorder.py       # Video recording
+├── logs/                       # Log files
+│   ├── behave.log              # Behave test execution log
+│   ├── ffmpeg.log              # FFmpeg log
+│   └── requirements.log        # Dependency installation log
+├── recordings/                 # Media captured during test runs
+│   ├── screenshots/            # Saved screenshots
+│   └── videos/                 # Video recordings
+├── reports/                    # Generated test reports (e.g., Allure)
+├── tools/                      # Third-party tools and installers
+│   ├── allure/                 # Allure reporting tool binaries
+│   ├── ffmpeg/                 # FFmpeg binaries
+│   └── installers/             # Install scripts for Allure and FFmpeg
+└── pages/                      # (Optional) Page Object Model classes
+```
 
 ## Getting Started
 
