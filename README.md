@@ -80,7 +80,7 @@ selenium-python-behave-initial-project/
 
 ## Getting Started
 
-### 1. Clone Bitbucket repository
+### 1. Clone GitHub repository
 
 ```
 git clone https://github.com/supragub/selenium-python-behave-initial-project.git
